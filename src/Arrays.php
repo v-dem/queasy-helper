@@ -2,7 +2,7 @@
 
 namespace queasy\helper;
 
-class ArrayHelper
+class Arrays
 {
     public static function flatten(array $array)
     {
