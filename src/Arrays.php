@@ -6,11 +6,11 @@ class Arrays
 {
     public static function flatten(array $array)
     {
-        $result = array();
-
         if (!is_array($array)) {
             $array = func_get_args();
         }
+
+        $result = array();
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
