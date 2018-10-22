@@ -6,13 +6,21 @@ class Arrays
 {
     public static function flatten(array $array)
     {
-        $return = array();
+        $result = array();
 
-        array_walk_recursive($array, function($value, $key) use (&$return) {
-            $return[$key] = $value;
-        });
+        if (!is_array($array)) {
+            $array = func_get_args();
+        }
 
-        return $return;
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, self::flatten($value));
+            } else {
+                $result = array_merge($result, array($key => $value));
+            }
+        }
+
+        return $result;
     }
 }
 
