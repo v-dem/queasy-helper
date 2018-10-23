@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ArraysTest extends TestCase
 {
-    /* Arrays::flatten() tests */
+    /* flatten() tests */
 
     public function testFlatten1Dimensional()
     {
