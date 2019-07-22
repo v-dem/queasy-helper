@@ -2,8 +2,17 @@
 
 namespace queasy\helper;
 
+use InvalidArgumentException;
+
 class Arrays
 {
+    /**
+     * Convert a multi-dimensional array to single-dimensional.
+     *
+     * @param array Source multi-dimensional array
+     *
+     * @return array Single-dimensional array
+     */
     public static function flatten(array $array)
     {
         $result = array();
@@ -17,6 +26,30 @@ class Arrays
                 $result = array_merge($result, self::flatten($value));
             } else {
                 $result = array_merge($result, array($key => $value));
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Create a key/value map by an array key or object field.
+     *
+     * @param string $field Field or key name
+     * @param array $rows Array of arrays or objects
+     *
+     * @return array Array containing $field as a key and responsive row as a value
+     */
+    public static function mapByField($field, array $rows)
+    {
+        $result = array();
+        foreach ($rows as $row) {
+            if (is_array($row)) {
+                $result[$row[$field]] = $row;
+            } elseif (is_object($row)) {
+                $result[$row->$field] = $row;
+            } else {
+                throw new InvalidArgumentException('Unexpected value. Must be array or object.');
             }
         }
 

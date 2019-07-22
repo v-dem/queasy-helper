@@ -63,5 +63,45 @@ class ArraysTest extends TestCase
 
         $this->assertArrayNotHasKey(3, $output);
     }
+
+    /* map() tests */
+
+    public function testMap()
+    {
+        $source = [
+            [
+                'id' => 12,
+                'name' => 'John'
+            ], [
+                'id' => 25,
+                'name' => 'Mary'
+            ]
+        ];
+
+        $result = Arrays::mapByField('id', $source);
+
+        $this->assertCount(2, $result);
+
+        $this->assertArrayHasKey(12, $result);
+        $this->assertEquals(12, $result[12]['id']);
+        $this->assertEquals('John', $result[12]['name']);
+
+        $this->assertArrayHasKey(25, $result);
+        $this->assertEquals(25, $result[25]['id']);
+        $this->assertEquals('Mary', $result[25]['name']);
+
+        $result = Arrays::mapByField('name', $source);
+
+        $this->assertCount(2, $result);
+
+        $this->assertArrayHasKey('John', $result);
+        $this->assertEquals(12, $result['John']['id']);
+        $this->assertEquals('John', $result['John']['name']);
+
+        $this->assertArrayHasKey('Mary', $result);
+        $this->assertEquals(25, $result['Mary']['id']);
+        $this->assertEquals('Mary', $result['Mary']['name']);
+
+    }
 }
 
