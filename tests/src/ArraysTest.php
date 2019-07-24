@@ -78,7 +78,7 @@ class ArraysTest extends TestCase
             ]
         ];
 
-        $result = Arrays::mapByField('id', $source);
+        $result = Arrays::map('id', $source);
 
         $this->assertCount(2, $result);
 
@@ -90,7 +90,7 @@ class ArraysTest extends TestCase
         $this->assertEquals(25, $result[25]['id']);
         $this->assertEquals('Mary', $result[25]['name']);
 
-        $result = Arrays::mapByField('name', $source);
+        $result = Arrays::map('name', $source);
 
         $this->assertCount(2, $result);
 

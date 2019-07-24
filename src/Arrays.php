@@ -38,9 +38,9 @@ class Arrays
      * @param string $field Field or key name
      * @param array $rows Array of arrays or objects
      *
-     * @return array Array containing $field as a key and responsive row as a value
+     * @return array Array containing $field values as a keys and associated rows as a values
      */
-    public static function mapByField($field, array $rows)
+    public static function map($field, array $rows)
     {
         $result = array();
         foreach ($rows as $row) {
