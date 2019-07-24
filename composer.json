@@ -34,7 +34,7 @@
         }
     },
     "scripts": {
-        "test": "./phpunit --coverage-clover clover.xml"
+        "test": "phpunit --coverage-clover coverage.xml"
     }
 }
 
