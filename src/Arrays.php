@@ -13,7 +13,7 @@ class Arrays
      *
      * @return array Single-dimensional array
      */
-    public static function flatten(array $array)
+    public static function flatten($array)
     {
         $result = array();
 

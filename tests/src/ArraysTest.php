@@ -10,6 +10,8 @@
 
 namespace queasy\helper\tests;
 
+use InvalidArgumentException;
+
 use queasy\helper\Arrays;
 
 use PHPUnit\Framework\TestCase;
@@ -64,6 +66,55 @@ class ArraysTest extends TestCase
         $this->assertArrayNotHasKey(3, $output);
     }
 
+    public function testFlatten2Dimensional()
+    {
+        $input = [5, 'aa', [7, 8, 9], 4];
+
+        $output = Arrays::flatten($input);
+
+        $this->assertCount(6, $output);
+
+        $this->assertEquals(5, $output[0]);
+        $this->assertEquals('aa', $output[1]);
+        $this->assertEquals(7, $output[2]);
+        $this->assertEquals(8, $output[3]);
+        $this->assertEquals(9, $output[4]);
+        $this->assertEquals(4, $output[5]);
+    }
+
+    public function testFlatten2DimensionalWithKeys()
+    {
+        $input = [5, 'aa' => 17, [7, 'bb' => 8, 9], 4];
+
+        $output = Arrays::flatten($input);
+
+        $this->assertCount(6, $output);
+
+        $this->assertEquals(5, $output[0]);
+        $this->assertArrayHasKey('aa', $output);
+        $this->assertEquals(17, $output['aa']);
+        $this->assertEquals(7, $output[1]);
+        $this->assertArrayHasKey('bb', $output);
+        $this->assertEquals(8, $output['bb']);
+        $this->assertEquals(9, $output[2]);
+        $this->assertEquals(4, $output[3]);
+    }
+
+    public function testFlattenWithArgumentsAsArray()
+    {
+        $output = Arrays::flatten(5, 'aa', [7, 'bb' => 8, 9], 4);
+
+        $this->assertCount(6, $output);
+
+        $this->assertEquals(5, $output[0]);
+        $this->assertEquals('aa', $output[1]);
+        $this->assertEquals(7, $output[2]);
+        $this->assertArrayHasKey('bb', $output);
+        $this->assertEquals(8, $output['bb']);
+        $this->assertEquals(9, $output[3]);
+        $this->assertEquals(4, $output[4]);
+    }
+
     /* map() tests */
 
     public function testMap()
@@ -101,7 +152,54 @@ class ArraysTest extends TestCase
         $this->assertArrayHasKey('Mary', $result);
         $this->assertEquals(25, $result['Mary']['id']);
         $this->assertEquals('Mary', $result['Mary']['name']);
+    }
 
+    public function testMapWithObjects()
+    {
+        $source = [
+            (object) [
+                'id' => 12,
+                'name' => 'John'
+            ], (object) [
+                'id' => 25,
+                'name' => 'Mary'
+            ]
+        ];
+
+        $result = Arrays::map('id', $source);
+
+        $this->assertCount(2, $result);
+
+        $this->assertEquals(12, $result[12]->id);
+        $this->assertEquals('John', $result[12]->name);
+
+        $this->assertEquals(25, $result[25]->id);
+        $this->assertEquals('Mary', $result[25]->name);
+
+        $result = Arrays::map('name', $source);
+
+        $this->assertCount(2, $result);
+
+        $this->assertEquals(12, $result['John']->id);
+        $this->assertEquals('John', $result['John']->name);
+
+        $this->assertEquals(25, $result['Mary']->id);
+        $this->assertEquals('Mary', $result['Mary']->name);
+    }
+
+    public function testInvalidMap()
+    {
+        $source = [
+            [
+                'id' => 12,
+                'name' => 'John'
+            ],
+            12
+        ];
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $result = Arrays::map('id', $source);
     }
 }
 
