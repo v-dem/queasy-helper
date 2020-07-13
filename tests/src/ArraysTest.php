@@ -100,21 +100,6 @@ class ArraysTest extends TestCase
         $this->assertEquals(4, $output[3]);
     }
 
-    public function testFlattenWithArgumentsAsArray()
-    {
-        $output = Arrays::flatten(5, 'aa', [7, 'bb' => 8, 9], 4);
-
-        $this->assertCount(6, $output);
-
-        $this->assertEquals(5, $output[0]);
-        $this->assertEquals('aa', $output[1]);
-        $this->assertEquals(7, $output[2]);
-        $this->assertArrayHasKey('bb', $output);
-        $this->assertEquals(8, $output['bb']);
-        $this->assertEquals(9, $output[3]);
-        $this->assertEquals(4, $output[4]);
-    }
-
     /* map() tests */
 
     public function testMap()
@@ -199,7 +184,7 @@ class ArraysTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        $result = Arrays::map('id', $source);
+        Arrays::map('id', $source);
     }
 }
 
