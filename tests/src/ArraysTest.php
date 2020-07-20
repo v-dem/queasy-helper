@@ -186,5 +186,55 @@ class ArraysTest extends TestCase
 
         Arrays::map('id', $source);
     }
+
+    /* merge() tests */
+
+    public function mergeTest()
+    {
+        $arr1 = [
+            'a' => [
+                'ab' => 12,
+                'ac' => 23
+            ],
+            'b' => 789,
+            'c' => [
+                12
+            ]
+        ];
+
+        $arr2 = [
+            'a' => [
+                'ab' => 122
+            ],
+            'b' => [
+                'ba' => 77
+            ],
+            'd' => 543
+        ];
+
+        $result = Arrays::merge($arr1, $arr2);
+
+        $this->assertCount(4, $result);
+
+        $this->assertArrayHasKey('a', $result);
+        $this->assertArrayHasKey('b', $result);
+        $this->assertArrayHasKey('c', $result);
+        $this->assertArrayHasKey('d', $result);
+
+        $this->assertIsArray($result['a']);
+        $this->assertIsArray($result['b']);
+        $this->assertIsArray($result['c']);
+
+        $this->assertArrayHasKey('ab', $result['a']);
+        $this->assertArrayHasKey('ac', $result['a']);
+        $this->assertArrayHasKey('ba', $result['b']);
+        $this->assertArrayHasKey(0, $result['c']);
+
+        $this->assertEquals(122, $result['a']['ab']);
+        $this->assertEquals(23, $result['a']['ac']);
+        $this->assertEquals(77, $result['b']['ba']);
+        $this->assertEquals(12, $result['c'][0]);
+        $this->assertEquals(543, $result['d']);
+    }
 }
 

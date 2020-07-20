@@ -54,22 +54,25 @@ class Arrays
         return $result;
     }
 
+    /**
+     * Merge arrays or ArrayAccess objects recursively. Arguments can be of type "array" or "object" which implements Iterator and ArrayAccess
+     *
+     * @param array|ArrayAccess $array1 Array to merge
+     * @param array|ArrayAccess $array2 Array to merge
+     * @param array|ArrayAccess ...
+     *
+     * @return array|ArrayAccess Merged array (type will be the same as the first argument)
+     */
     public static function merge()
     {
         $arrays = func_get_args();
         $result = array_shift($arrays);
         foreach ($arrays as $array) {
             foreach ($array as $key => $value) {
-                if (is_array($value) || ($value instanceof ArrayAccess && $value instanceof Iterator)) {
-                    if (isset($result[$key])) {
-                        if (is_array($result[$key]) || ($result[$key] instanceof ArrayAccess && $result[$key] instanceof Iterator)) {
-                            $result[$key] = self::merge($result[$key], $value);
-                        } else {
-                            $result[$key] = $value;
-                        }
-                    } else {
-                        $result[$key] = $value;
-                    }
+                if ((is_array($value) || ($value instanceof ArrayAccess && $value instanceof Iterator))
+                        && isset($result[$key])
+                        && (is_array($result[$key]) || ($result[$key] instanceof ArrayAccess && $result[$key] instanceof Iterator))) {
+                    $result[$key] = self::merge($result[$key], $value);
                 } else {
                     $result[$key] = $value;
                 }
