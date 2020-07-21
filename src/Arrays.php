@@ -22,33 +22,11 @@ class Arrays
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $result = array_merge($result, self::flatten($value));
-            } else {
-                $result = array_merge($result, array($key => $value));
-            }
-        }
 
-        return $result;
-    }
-
-    /**
-     * Create a key/value map by column or object field.
-     *
-     * @param string $field Field or key name
-     * @param array|ArrayAccess $rows Array (or ArrayAccess object) of arrays or objects
-     *
-     * @return array Array containing $field values as a keys and associated rows as a values
-     */
-    public static function map($field, $rows)
-    {
-        $result = array();
-        foreach ($rows as $row) {
-            if (is_array($row)) {
-                $result[$row[$field]] = $row;
-            } elseif (is_object($row)) {
-                $result[$row->$field] = $row;
-            } else {
-                throw new InvalidArgumentException('Unexpected value. Must be array or object.');
+                continue;
             }
+
+            $result = array_merge($result, array($key => $value));
         }
 
         return $result;
@@ -72,7 +50,7 @@ class Arrays
             } elseif (is_object($row)) {
                 $isLikeArray = false;
             } else {
-                throw new InvalidArgumentException('Unexpected value. Must be array or object.');
+                throw new InvalidArgumentException('Unexpected value. Must be array (or ArrayAccess) or object.');
             }
 
             if (null === $columnKey) {
