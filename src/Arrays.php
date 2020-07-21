@@ -31,14 +31,14 @@ class Arrays
     }
 
     /**
-     * Create a key/value map by an array key or object field.
+     * Create a key/value map by column or object field.
      *
      * @param string $field Field or key name
-     * @param array $rows Array of arrays or objects
+     * @param array|ArrayAccess $rows Array (or ArrayAccess object) of arrays or objects
      *
      * @return array Array containing $field values as a keys and associated rows as a values
      */
-    public static function map($field, array $rows)
+    public static function map($field, $rows)
     {
         $result = array();
         foreach ($rows as $row) {
@@ -48,6 +48,49 @@ class Arrays
                 $result[$row->$field] = $row;
             } else {
                 throw new InvalidArgumentException('Unexpected value. Must be array or object.');
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Create a key/value map by column or object field.
+     *
+     * @param array|ArrayAccess $rows Array (or ArrayAccess object) of arrays (or ArrayAccess objects) or objects
+     * @param string $columnKey Column name
+     * @param string $indexKey Index name
+     *
+     * @return array Array containing $field values as a keys and associated rows as a values
+     */
+    public static function column($rows, $columnKey = null, $indexKey = null)
+    {
+        $result = array();
+        foreach ($rows as $row) {
+            if (is_array($row) || is_object($row) && ($row instanceof ArrayAccess)) {
+                $isLikeArray = true;
+            } elseif (is_object($row)) {
+                $isLikeArray = false;
+            } else {
+                throw new InvalidArgumentException('Unexpected value. Must be array or object.');
+            }
+
+            if (null === $columnKey) {
+                $value = $row;
+            } else {
+                $value = $isLikeArray
+                    ? $row[$columnKey]
+                    : $row->$columnKey;
+            }
+
+            if (null === $indexKey) {
+                $result[] = $value;
+            } else {
+                if ($isLikeArray) {
+                    $result[$row[$indexKey]] = $value;
+                } else {
+                    $result[$row->$indexKey] = $value;
+                }
             }
         }
 
