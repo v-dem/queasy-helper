@@ -4,6 +4,6 @@
 [![Total Downloads](https://poser.pugx.org/v-dem/queasy-helper/downloads)](https://packagist.org/packages/v-dem/queasy-helper)
 [![License](https://poser.pugx.org/v-dem/queasy-helper/license)](https://packagist.org/packages/v-dem/queasy-helper)
 
-# [Queasy PHP Framework](https://github.com/v-dem/queasy-helper/) - Helper Functions
+# [QuEasy PHP Framework](https://github.com/v-dem/queasy-framework/) - Helper Functions
 
 ## Package `v-dem/queasy-helper`
