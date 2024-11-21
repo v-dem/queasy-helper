@@ -256,5 +256,21 @@ class ArraysTest extends TestCase
         $this->assertEquals(12, $result['c'][0]);
         $this->assertEquals(543, $result['d']);
     }
+
+    /* isAssoc() tests */
+
+    public function isAssocFalseTest()
+    {
+        $arr = [1, 2, 75, 'test'];
+
+        $this->assertFalse(Arrays::isAssoc($arr));
+    }
+
+    public function isAssocTrueTest()
+    {
+        $arr = [1, 'a' => 2, 75, 'test'];
+
+        $this->assertTrue(Arrays::isAssoc($arr));
+    }
 }
 

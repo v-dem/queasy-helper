@@ -102,5 +102,10 @@ class Arrays
 
         return $result;
     }
+
+    public static function isAssoc(array $arr)
+    {
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
 }
 
