@@ -111,6 +111,10 @@ class Arrays
             if (is_int($ruleKey)) {
                 $result[$rule] = $data[$rule] ?? null;
             } elseif (is_string($ruleKey)) {
+                if (!isset($data[$ruleKey])) {
+                    continue;
+                }
+
                 $value = $data[$ruleKey];
                 if (is_array($rule)) {
                     foreach ($rule as $ruleItem) {
