@@ -111,9 +111,22 @@ class Arrays
             if (is_int($ruleKey)) {
                 $result[$rule] = $data[$rule] ?? null;
             } elseif (is_string($ruleKey) && is_callable($rule)) {
-                $result[$ruleKey] = $rule($data[$ruleKey]);
+                $value = $data[$ruleKey];
+                if (is_array($rule)) {
+                    foreach ($rule as $ruleItem) {
+                        $value = $ruleItem($data[$ruleKey]);
+                    }
+
+                    $result[$ruleKey] = $value;
+                } elseif (is_callable($rule)) {
+                    $value = $rule($data[$ruleKey]);
+                } else {
+                    throw new Exception('Wrong rule type: ' . gettype($rule));
+                }
+
+                $result[$ruleKey] = $value;
             } else {
-                throw new Exception('Wrong rule type ' . gettype($rule));
+                throw new Exception('Wrong rule type: ' . gettype($rule));
             }
         }
 
