@@ -113,7 +113,7 @@ class Arrays
             } elseif (is_string($ruleKey) && is_callable($rule)) {
                 $result[$ruleKey] = $rule($data[$ruleKey]);
             } else {
-                throw new Exception('Wrong rule type ' . get_class($rule));
+                throw new Exception('Wrong rule type ' . gettype($rule));
             }
         }
 
