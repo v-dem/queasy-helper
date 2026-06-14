@@ -103,6 +103,22 @@ class Arrays
         return $result;
     }
 
+    public static function filter(array $data, array $rules)
+    {
+        $result = array();
+        foreach ($rules as $ruleKey => $rule) {
+            if (is_int($ruleKey)) {
+                $result[$rule] = $data[$rule] ?? null;
+            } elseif (is_string($ruleKey) && is_callable($rule)) {
+                $result[$ruleKey] = $rule($data[$ruleKey]);
+            } else {
+                throw new Exception('Wrong rule type ' . get_class($rule));
+            }
+        }
+
+        return $result;
+    }
+
     public static function isAssoc(array $arr)
     {
         return array_keys($arr) !== range(0, count($arr) - 1);
