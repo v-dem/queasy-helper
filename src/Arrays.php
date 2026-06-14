@@ -5,6 +5,7 @@ namespace queasy\helper;
 use InvalidArgumentException;
 
 use ArrayAccess;
+use Exception;
 use Iterator;
 
 class Arrays
