@@ -110,7 +110,7 @@ class Arrays
         foreach ($rules as $ruleKey => $rule) {
             if (is_int($ruleKey)) {
                 $result[$rule] = $data[$rule] ?? null;
-            } elseif (is_string($ruleKey) && is_callable($rule)) {
+            } elseif (is_string($ruleKey)) {
                 $value = $data[$ruleKey];
                 if (is_array($rule)) {
                     foreach ($rule as $ruleItem) {
